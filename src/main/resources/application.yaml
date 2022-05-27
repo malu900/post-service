@@ -1,0 +1,32 @@
+logging:
+  level:
+    com:
+      example:
+        commentservice: DEBUG
+spring:
+  application:
+    name: post-service
+    # DEFAULT PROPS FOR KAFKA
+  #    consumer:
+#      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+#      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+#      properties:
+#        spring:
+#          json:
+#            trusted:
+#              packages: *
+#      group-id: groupId
+#      auto-offset-reset: earliest
+#    producer:
+#      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+#      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+  #      uri: mongodb://localhost:27017/commentdb
+  datasource:
+    url: jdbc:h2:mem:mydb
+    username: sa
+    password: password
+    driverClassName: org.h2.Driver
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+
+
