@@ -1,11 +1,12 @@
 package com.example.postservice.service;
 
 
+import com.example.postservice.component.CommentEventModel;
 import com.example.postservice.model.Post;
 import com.example.postservice.repository.PostRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -18,10 +19,21 @@ public class PostService {
 //    private final MongoOperations mongoOperations;
 
     public Post createPost(Post post) {
+        post.setCommentCount(0);
         return mongoTemplate.save(post, "post");
     }
     public Optional<Post> getPost(String id) {
         return postRepository.getPostById(id);
+    }
+
+    @KafkaListener(topics = "topicTwo", groupId = "test")
+    void updateCommentPost(CommentEventModel data) {
+        Optional<Post> post = this.getPost(data.getTweetid());
+        if (post.isEmpty()) return;
+        post.get().setCommentCount(+1);
+        System.out.println(post.get());
+        System.out.println(data);
+        mongoTemplate.save(post.get(), "post");
     }
 
 //    public Comment createComment(Comment comment) {
