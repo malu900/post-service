@@ -18,7 +18,7 @@ import java.util.Map;
 @Configuration
 @EnableKafka
 public class KafkaConsumerConfig {
-    @Value("${spring.kafka.consumer.bootstrap-servers}")
+    @Value("${spring.kafka.consumer.bootstrap-servers:NOTFROMK8}")
     private String bootstrapServers;
 
     // conf to pass to a producer factory
