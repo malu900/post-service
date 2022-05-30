@@ -9,6 +9,7 @@ import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -24,6 +25,10 @@ public class PostService {
     }
     public Optional<Post> getPost(String id) {
         return postRepository.getPostById(id);
+    }
+
+    public List<Post> getAllPosts(){
+        return postRepository.findAll();
     }
 
     @KafkaListener(topics = "topicTwo", groupId = "test")

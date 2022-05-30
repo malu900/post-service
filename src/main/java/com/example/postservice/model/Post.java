@@ -14,7 +14,7 @@ import java.util.List;
 public class Post {
     private String id;
     private String message;
-    private Long userId;
+    private String userId;
     private Integer commentCount;
     private List<Comment> commentList;
     @Indexed
