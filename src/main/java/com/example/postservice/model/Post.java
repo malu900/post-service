@@ -5,7 +5,6 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import javax.persistence.Id;
 import java.util.Date;
 import java.util.List;
 
@@ -15,6 +14,7 @@ public class Post {
     private String id;
     private String message;
     private String userId;
+    private String sentiment;
     private Integer commentCount;
     private List<Comment> commentList;
     @Indexed
