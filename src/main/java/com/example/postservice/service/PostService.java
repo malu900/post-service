@@ -35,41 +35,26 @@ public class PostService {
 
     @KafkaListener(topics = "topicTwo", groupId = "test")
     void updateCommentPost(CommentEventModel data) {
-        System.out.println("COMMENTLIST   " + data);
-
         Optional<Post> optionalPost = this.getPost(data.getTweetid());
         Post post = new Post();
         if (optionalPost.isPresent()) {
             post = optionalPost.get();
         }
-//        post.setCommentCount(post.getCommentCount() + 1)
         post.setCommentCount(post.getCommentCount() +1);
-        System.out.println("COMMENT COUNT   " + post.getCommentCount());
 
         Comment comment = new Comment();
         comment.setCreated(data.getCreated());
         comment.setId(data.getId());
         comment.setMessage(data.getMessage());
         comment.setTweetid(data.getTweetid());
+        comment.setUserId(data.getUserId());
 
         List<Comment> commentList = new ArrayList<>();
         if(post.getCommentList() != null) commentList.addAll(post.getCommentList());
         commentList.add(comment);
-        System.out.println("COMMENT LIST   " + commentList);
         post.setCommentList(commentList);
-        System.out.println("POST COMMENT LIST   " + post.getCommentList());
-        System.out.println("POST ITSELF   " + post);
-
 
         mongoTemplate.save(post, "post");
     }
 
-//    public Comment createComment(Comment comment) {
-//        return mongoTemplate.save(comment, "comment");
-//    }
-//
-//    public Optional<Comment> getComment(String id) {
-//        //        Comment comment = mongoTemplate.findOne(Query.query(Criteria.where("id").is(id)), Comment.class);
-//        return commentRepository.findById(id);
-//    }
 }

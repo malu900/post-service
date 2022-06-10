@@ -1,5 +1,5 @@
-package com.example.postservice;
-
-
-public record MessageRequest(String message) {
-}
+//package com.example.postservice;
+//
+//
+//public record MessageRequest(String message) {
+//}

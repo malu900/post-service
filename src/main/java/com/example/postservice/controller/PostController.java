@@ -13,7 +13,7 @@ import java.util.Optional;
 @RestController
 @RequiredArgsConstructor
 //@CrossOrigin(origins = "http://localhost:3003")
-@RequestMapping("/api/v1/post")
+@RequestMapping("/post")
 public class PostController {
     private final PostService postService;
 

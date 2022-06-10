@@ -20,6 +20,7 @@ public class Comment {
     private String message;
     private String tweetid;
     private Date created;
+    private String userId;
 
     public Comment(String message) {
         this.message = message;

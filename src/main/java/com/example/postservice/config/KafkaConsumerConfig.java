@@ -26,11 +26,6 @@ public class KafkaConsumerConfig {
     public ConsumerFactory<String, CommentEventModel> consumerFactory() {
         Map<String, Object> props = new HashMap<>();
         props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers);
-//        props.put(JsonDeserializer.TRUSTED_PACKAGES, "*");
-//        props.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringSerializer.class);
-//        props.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, JsonDeserializer.class);
-//        props.put(JsonDeserializer.USE_TYPE_INFO_HEADERS, false);
-//        props.put(ConsumerConfig.GROUP_ID_CONFIG, "test");
         return new DefaultKafkaConsumerFactory<>(props, new StringDeserializer(),
                 new JsonDeserializer<>(CommentEventModel.class, false).ignoreTypeHeaders().trustedPackages("*"));
     }
