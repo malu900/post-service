@@ -8,6 +8,7 @@ import com.example.postservice.repository.PostRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.kafka.annotation.KafkaListener;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -19,10 +20,12 @@ import java.util.Optional;
 public class PostService {
     private final PostRepository postRepository;
     private final MongoTemplate mongoTemplate;
+    private final KafkaTemplate<String, String> kafkaTemplate;
 //    private final MongoOperations mongoOperations;
 
     public Post createPost(Post post) {
         post.setCommentCount(0);
+        kafkaTemplate.send("sentimentPython", post.getMessage());
         return mongoTemplate.save(post, "post");
     }
     public Optional<Post> getPost(String id) {
