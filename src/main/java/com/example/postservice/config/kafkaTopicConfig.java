@@ -11,7 +11,7 @@ public class kafkaTopicConfig {
     @Bean
     @Primary
     public NewTopic codeTopic(){
-        return TopicBuilder.name("sentimentPython").replicas(2).partitions(4)
+        return TopicBuilder.name("sentimentPythonTopic")
                 .build();
     }
 }

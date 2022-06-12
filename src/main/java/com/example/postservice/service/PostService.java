@@ -25,7 +25,7 @@ public class PostService {
 
     public Post createPost(Post post) {
         post.setCommentCount(0);
-        kafkaTemplate.send("sentimentPython", post.getMessage());
+        kafkaTemplate.send("sentimentPython", post.getMessage().toString());
         return mongoTemplate.save(post, "post");
     }
     public Optional<Post> getPost(String id) {
