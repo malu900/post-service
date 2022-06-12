@@ -11,7 +11,13 @@ public class kafkaTopicConfig {
     @Bean
     @Primary
     public NewTopic codeTopic(){
-        return TopicBuilder.name("sentimentPythonTopic")
+        return TopicBuilder.name("sentimentObjectPython")
+                .build();
+    }
+    @Bean
+    @Primary
+    public NewTopic pythonTopic(){
+        return TopicBuilder.name("sentimentTopicSpringReturn")
                 .build();
     }
 }

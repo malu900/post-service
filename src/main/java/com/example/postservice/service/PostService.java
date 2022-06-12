@@ -4,6 +4,8 @@ package com.example.postservice.service;
 import com.example.postservice.component.CommentEventModel;
 import com.example.postservice.model.Comment;
 import com.example.postservice.model.Post;
+import com.example.postservice.model.PythonEvent;
+import com.example.postservice.model.SentimentEvent;
 import com.example.postservice.repository.PostRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -20,13 +22,18 @@ import java.util.Optional;
 public class PostService {
     private final PostRepository postRepository;
     private final MongoTemplate mongoTemplate;
-    private final KafkaTemplate<String, String> kafkaTemplate;
+    private final KafkaTemplate<String, PythonEvent> kafkaTemplate;
 //    private final MongoOperations mongoOperations;
 
     public Post createPost(Post post) {
         post.setCommentCount(0);
-        kafkaTemplate.send("sentimentPython", post.getMessage().toString());
-        return mongoTemplate.save(post, "post");
+        PythonEvent pythonEvent = new PythonEvent();
+        Post post2 = mongoTemplate.save(post, "post");
+        pythonEvent.setMessage(post2.getMessage());
+        pythonEvent.setUserId(post2.getUserId());
+        pythonEvent.setId(post2.getId());
+        kafkaTemplate.send("sentimentObjectPython", pythonEvent);
+        return post2;
     }
     public Optional<Post> getPost(String id) {
         return postRepository.getPostById(id);
@@ -36,7 +43,12 @@ public class PostService {
         return postRepository.findAll();
     }
 
-    @KafkaListener(topics = "topicTwo", groupId = "test")
+    @KafkaListener(topics = "sentimentTopicSpringReturnTwo", containerFactory = "KafkaListenerFactorySentimentEvent",groupId = "pythonSpringSentimentTwo")
+    void updateSentimentPost(SentimentEvent sentiment){
+        System.out.println("SENTIMENT OBJECT" + sentiment);
+    }
+
+    @KafkaListener(topics = "topicTwo", containerFactory = "KafkaListenerFactoryCommentEvent", groupId = "new")
     void updateCommentPost(CommentEventModel data) {
         Optional<Post> optionalPost = this.getPost(data.getTweetid());
         Post post = new Post();
@@ -59,5 +71,6 @@ public class PostService {
 
         mongoTemplate.save(post, "post");
     }
+
 
 }
