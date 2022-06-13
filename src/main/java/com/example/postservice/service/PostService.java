@@ -45,7 +45,13 @@ public class PostService {
 
     @KafkaListener(topics = "sentimentTopicSpringReturnTwo", containerFactory = "KafkaListenerFactorySentimentEvent",groupId = "pythonSpringSentimentTwo")
     void updateSentimentPost(SentimentEvent sentiment){
-        System.out.println("SENTIMENT OBJECT" + sentiment);
+        Optional<Post> opost = getPost(sentiment.getId());
+        Post post;
+        if(opost.isEmpty()) return;
+        post = opost.get();
+        post.setSentiment(sentiment.getSentiment());
+        post.setSentimentId(sentiment.getSentimentId());
+        mongoTemplate.save(post, "post");
     }
 
     @KafkaListener(topics = "topicTwo", containerFactory = "KafkaListenerFactoryCommentEvent", groupId = "new")

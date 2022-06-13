@@ -15,6 +15,7 @@ public class Post {
     private String message;
     private String userId;
     private String sentiment;
+    private String sentimentId;
     private Integer commentCount;
     private List<Comment> commentList;
     @Indexed
