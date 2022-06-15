@@ -19,9 +19,9 @@ public class PostServiceApplication {
     @Value("${spring.kafka.consumer.bootstrap-servers:NOTWORKING}")
     private String bootstrapServers;
 
-    CommandLineRunner runner() {
-        return args -> {
-            System.out.println(bootstrapServers + "HOERAAAA");
-        };
-    };
+//    CommandLineRunner runner() {
+//        return args -> {
+//            System.out.println(bootstrapServers + "HOERAAAA");
+//        };
+//    };
 }
