@@ -37,6 +37,7 @@ jobs:
   sonar:
     name: Test - SonarCloud Scan
     runs-on: ubuntu-18.04
+    needs: [build]
 
     steps:
       - uses: actions/checkout@v2
@@ -50,3 +51,20 @@ jobs:
         run: mvn -B clean verify -Psonar -Dsonar.login=${{ secrets.SONAR_TOKEN }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  deploy:
+    name: deploy app
+    needs: [build, sonar]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Docker login
+        env:
+          DOCKER_USER: ${{secrets.DOCKER_USER}}
+          DOCKER_PASSWORD: ${{secrets.DOCKER_PASSWORD}}
+          TIME_STAMP: $(date +%s)
+        run: |
+          docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
+      - name: build the docker image
+        run: docker build . --file Dockerfile --tag ${{secrets.DOCKER_USER}}/comment-service
+      - name: Docker push
+        run: docker push ${{secrets.DOCKER_USER}}/comment-service
