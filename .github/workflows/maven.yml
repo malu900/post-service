@@ -70,9 +70,23 @@ jobs:
         run: docker push ${{secrets.DOCKER_USER}}/comment-service
   digitalocean:
     name: Install doctl
-    uses: digitalocean/action-doctl@v2
-    with:
-      token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: digitalocean/action-doctl@v2
+        with:
+          token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
+
+#
+#      name: build app
+#      runs-on: ubuntu-latest
+#      steps:
+#        - uses: actions/checkout@v2
+#        - name: Set up JDK 17
+#          uses: actions/setup-java@v2
+#          with:
+#            java-version: '17'
+#            distribution: 'adopt'
+#            cache: maven
 #    name: Install doctl
 #    uses: digitalocean/action-doctl@v2
 #    with:
