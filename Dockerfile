@@ -9,3 +9,7 @@ FROM openjdk:17-slim
 COPY --from=build /workspace/target/*.jar app.jar
 EXPOSE 8087
 ENTRYPOINT ["java","-jar","app.jar"]
+#FROM  azul/zulu-openjdk-alpine:17.0.3
+#ARG JAR_FILE=target/*.jar
+#COPY ${JAR_FILE} app.jar
+#ENTRYPOINT ["java","-jar","/app.jar"]
