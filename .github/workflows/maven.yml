@@ -68,3 +68,12 @@ jobs:
         run: docker build . --file Dockerfile --tag ${{secrets.DOCKER_USER}}/comment-service
       - name: Docker push
         run: docker push ${{secrets.DOCKER_USER}}/comment-service
+  digitalocean:
+    name: Install doctl
+    uses: digitalocean/action-doctl@v2
+    with:
+      token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
+#    name: Install doctl
+#    uses: digitalocean/action-doctl@v2
+#    with:
+#      token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
