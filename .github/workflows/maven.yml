@@ -76,6 +76,10 @@ jobs:
       - uses: digitalocean/action-doctl@v2
         with:
           token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
+      - name: Save DigitalOcean kubeconfig
+        run: doctl kubernetes cluster kubeconfig save the-cluster-id
+      - name: Kubernetes rollout the latest image
+        run: kubectl -n post rollout restart deployment post-service
 
 #
 #      name: build app
