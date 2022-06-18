@@ -81,6 +81,9 @@ jobs:
       - name: Kubernetes rollout the latest image
         run: kubectl -n post rollout restart deployment post-service
 
+
+
+#?
 #
 #      name: build app
 #      runs-on: ubuntu-latest
