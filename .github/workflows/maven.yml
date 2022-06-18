@@ -77,7 +77,7 @@ jobs:
         with:
           token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
       - name: Save DigitalOcean kubeconfig
-        run: doctl kubernetes cluster kubeconfig save the-cluster-id
+        run: doctl kubernetes cluster kubeconfig save ${{secrets.CLUSTER_KEY}}
       - name: Kubernetes rollout the latest image
         run: kubectl -n post rollout restart deployment post-service
 
