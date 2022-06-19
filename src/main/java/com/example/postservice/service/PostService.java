@@ -54,6 +54,7 @@ public class PostService {
         mongoTemplate.save(post, "post");
     }
 
+// TEST TEST
     @KafkaListener(topics = "topicTwo", containerFactory = "KafkaListenerFactoryCommentEvent", groupId = "new")
     void updateCommentPost(CommentEventModel data) {
         Optional<Post> optionalPost = this.getPost(data.getTweetid());
@@ -62,7 +63,6 @@ public class PostService {
             post = optionalPost.get();
         }
         post.setCommentCount(post.getCommentCount() +1);
-
         Comment comment = new Comment();
         comment.setCreated(data.getCreated());
         comment.setId(data.getId());
